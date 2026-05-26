@@ -8,7 +8,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       attribute="class"
       defaultTheme="dark"
       enableSystem
-      disableTransitionOnChange
     >
       {children}
     </NextThemesProvider>
