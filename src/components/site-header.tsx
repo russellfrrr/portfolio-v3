@@ -1,28 +1,20 @@
-import { ThemeToggle } from '@/components/theme-toggle';
-
-const navItems = ['Projects', 'Stack', 'Experience', 'Blog'];
+import { Globe, Menu } from 'lucide-react';
 
 export const SiteHeader = () => {
   return (
-    <header className="sticky top-0 z-20 border-b bg-background/85 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a className="text-sm font-semibold tracking-tight" href="#">
+    <header className="sticky top-4 z-20 mx-auto flex max-w-5xl justify-center px-4">
+      <div className="flex h-14 w-full items-center justify-between rounded-2xl border border-neutral-200 bg-[#f4efe3] px-5 text-black shadow-sm">
+        <button type="button" aria-label="Open menu">
+          <Menu className="size-5" />
+        </button>
+
+        <a className="text-sm font-bold tracking-tight" href="#">
           russellfrrr
         </a>
 
-        <nav className="hidden items-center gap-5 text-sm text-muted-foreground sm:flex">
-          {navItems.map((item) => (
-            <a
-              key={item}
-              className="transition-colors hover:text-foreground"
-              href={`#${item.toLowerCase()}`}
-            >
-              {item}
-            </a>
-          ))}
-        </nav>
-
-        <ThemeToggle />
+        <a href="#links" aria-label="Links">
+          <Globe className="size-5" />
+        </a>
       </div>
     </header>
   );

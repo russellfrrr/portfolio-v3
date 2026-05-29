@@ -128,3 +128,13 @@
     @apply font-sans;
   }
 }
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  to {
+    transform: translate3d(-42px, -42px, 0) rotate(1deg);
+  }
+}
