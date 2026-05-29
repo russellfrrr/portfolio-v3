@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { LogoMark } from '@/components/signature-pill/logo-mark';
@@ -29,6 +29,7 @@ const menuItems = [
 ];
 
 export const SignaturePill = () => {
+  const lockedScrollY = useRef(0);
   const [isMenuHovered, setIsMenuHovered] = useState(false);
   const [openHeight, setOpenHeight] = useState(220);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,6 +43,15 @@ export const SignaturePill = () => {
 
     const preventScroll = (event: Event) => {
       event.preventDefault();
+    };
+
+    const restoreScrollPosition = () => {
+      if (window.scrollY !== lockedScrollY.current) {
+        window.scrollTo({
+          left: 0,
+          top: lockedScrollY.current,
+        });
+      }
     };
 
     const preventScrollKeys = (event: KeyboardEvent) => {
@@ -62,16 +72,19 @@ export const SignaturePill = () => {
       }
     };
 
+    lockedScrollY.current = window.scrollY;
     document.documentElement.setAttribute('data-menu-open', 'true');
     window.addEventListener('wheel', preventScroll, { passive: false });
     window.addEventListener('touchmove', preventScroll, { passive: false });
     window.addEventListener('keydown', preventScrollKeys);
+    window.addEventListener('scroll', restoreScrollPosition, { passive: true });
 
     return () => {
       document.documentElement.removeAttribute('data-menu-open');
       window.removeEventListener('wheel', preventScroll);
       window.removeEventListener('touchmove', preventScroll);
       window.removeEventListener('keydown', preventScrollKeys);
+      window.removeEventListener('scroll', restoreScrollPosition);
     };
   }, [isMenuOpen]);
 
