@@ -34,10 +34,44 @@ export const SignaturePill = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    if (!isMenuOpen) {
+      document.documentElement.removeAttribute('data-menu-open');
+
+      return;
+    }
+
+    const preventScroll = (event: Event) => {
+      event.preventDefault();
+    };
+
+    const preventScrollKeys = (event: KeyboardEvent) => {
+      const scrollKeys = [
+        ' ',
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowUp',
+        'End',
+        'Home',
+        'PageDown',
+        'PageUp',
+      ];
+
+      if (scrollKeys.includes(event.key)) {
+        event.preventDefault();
+      }
+    };
+
+    document.documentElement.setAttribute('data-menu-open', 'true');
+    window.addEventListener('wheel', preventScroll, { passive: false });
+    window.addEventListener('touchmove', preventScroll, { passive: false });
+    window.addEventListener('keydown', preventScrollKeys);
 
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.removeAttribute('data-menu-open');
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+      window.removeEventListener('keydown', preventScrollKeys);
     };
   }, [isMenuOpen]);
 
@@ -58,8 +92,9 @@ export const SignaturePill = () => {
     <header className="sticky top-3 z-20 mx-auto h-14 max-w-5xl px-3 sm:top-4 sm:px-4">
       <motion.div
         animate={{ opacity: isMenuOpen ? 1 : 0 }}
-        className="pointer-events-none fixed inset-0 top-0 -z-10 bg-black/20 backdrop-blur-[2px]"
+        className="pointer-events-auto fixed inset-0 top-0 -z-10 bg-black/20 backdrop-blur-[2px]"
         initial={false}
+        onClick={() => setIsMenuOpen(false)}
         transition={{ duration: 0.22, ease: 'easeOut' }}
       />
 
