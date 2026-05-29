@@ -1,11 +1,11 @@
-import { BlogPreview } from '@/components/blog-preview';
-import { ExperienceSection } from '@/components/experience-section';
-import { ProfileCard } from '@/components/profile-card';
-import { ProjectsSection } from '@/components/projects-section';
-import { SiteBackground } from '@/components/site-background';
-import { SiteHeader } from '@/components/site-header';
-import { StackSection } from '@/components/stack-section';
-import { StatusCard } from '@/components/status-card';
+import { SiteBackground } from '@/components/site/site-background';
+import { SiteHeader } from '@/components/site/site-header';
+import { BlogPreview } from '@/components/sections/blog-preview';
+import { ExperienceSection } from '@/components/sections/experience-section';
+import { ProfileCard } from '@/components/sections/profile-card';
+import { ProjectsSection } from '@/components/sections/projects-section';
+import { StackSection } from '@/components/sections/stack-section';
+import { StatusCard } from '@/components/sections/status-card';
 
 const Home = () => {
   return (

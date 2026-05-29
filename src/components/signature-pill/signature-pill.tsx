@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
-import { LogoMark } from '@/components/logo-mark';
-import { MenuMark } from '@/components/menu-mark';
-import { SlitherBrand } from '@/components/slither-brand';
+import { LogoMark } from '@/components/signature-pill/logo-mark';
+import { MenuMark } from '@/components/signature-pill/menu-mark';
+import { SlitherBrand } from '@/components/signature-pill/slither-brand';
 
 const menuItems = [
   {
