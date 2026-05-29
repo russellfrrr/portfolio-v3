@@ -30,7 +30,7 @@ const menuItems = [
 
 export const SignaturePill = () => {
   const [isMenuHovered, setIsMenuHovered] = useState(false);
-  const [menuHeight, setMenuHeight] = useState(0);
+  const [openHeight, setOpenHeight] = useState(220);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -42,20 +42,20 @@ export const SignaturePill = () => {
   }, [isMenuOpen]);
 
   useEffect(() => {
-    const updateMenuHeight = () => {
-      setMenuHeight(window.innerWidth < 640 ? 320 : 164);
+    const updateOpenHeight = () => {
+      setOpenHeight(window.innerWidth < 640 ? 376 : 220);
     };
 
-    updateMenuHeight();
-    window.addEventListener('resize', updateMenuHeight);
+    updateOpenHeight();
+    window.addEventListener('resize', updateOpenHeight);
 
     return () => {
-      window.removeEventListener('resize', updateMenuHeight);
+      window.removeEventListener('resize', updateOpenHeight);
     };
   }, []);
 
   return (
-    <header className="sticky top-3 z-20 mx-auto max-w-5xl px-3 sm:top-4 sm:px-4">
+    <header className="sticky top-3 z-20 mx-auto h-14 max-w-5xl px-3 sm:top-4 sm:px-4">
       <motion.div
         animate={{ opacity: isMenuOpen ? 1 : 0 }}
         className="pointer-events-none fixed inset-0 top-0 -z-10 bg-black/20 backdrop-blur-[2px]"
@@ -64,10 +64,10 @@ export const SignaturePill = () => {
       />
 
       <motion.div
-        animate={{ height: isMenuOpen ? 56 + menuHeight : 56 }}
-        className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-[#f4efe3] text-black shadow-[0_14px_45px_rgba(0,0,0,0.28)]"
+        animate={{ height: isMenuOpen ? openHeight : 56 }}
+        className="absolute inset-x-3 top-0 overflow-hidden rounded-2xl border border-neutral-200 bg-[#f4efe3] text-black shadow-[0_14px_45px_rgba(0,0,0,0.28)] sm:inset-x-4"
         initial={false}
-        transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="flex h-14 w-full items-center justify-between px-4">
           <MenuMark
@@ -85,17 +85,20 @@ export const SignaturePill = () => {
         <motion.div
           animate={{
             opacity: isMenuOpen ? 1 : 0,
-            y: isMenuOpen ? 0 : -10,
+            y: isMenuOpen ? 0 : -8,
           }}
-          className="absolute inset-x-0 top-14"
+          className="pointer-events-none absolute inset-x-0 top-14"
           initial={false}
           transition={{
-            duration: 0.22,
-            ease: 'easeOut',
-            delay: isMenuOpen ? 0.06 : 0,
+            duration: 0.24,
+            ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <div className="grid gap-2 px-3 pb-3 pt-1 sm:grid-cols-3 sm:gap-3 sm:px-4 sm:pb-4">
+          <div
+            className={`grid gap-2 px-3 pb-3 pt-1 sm:grid-cols-3 sm:gap-3 sm:px-4 sm:pb-4 ${
+              isMenuOpen ? 'pointer-events-auto' : ''
+            }`}
+          >
             {menuItems.map((item) => (
               <a
                 className="group relative flex h-24 overflow-hidden rounded-xl bg-[#181818] p-4 text-[#f4efe3] ring-1 ring-black/10 transition-transform hover:-translate-y-0.5 sm:h-36 sm:p-5"
