@@ -209,3 +209,17 @@ html[data-menu-open='true'] {
     background-position: 0% 50%;
   }
 }
+
+@keyframes profile-glow {
+  0% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(1.5%, 1%, 0) scale(1.05);
+  }
+
+  100% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+}

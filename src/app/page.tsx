@@ -1,8 +1,8 @@
 import { SiteBackground } from '@/components/site/site-background';
 import { SiteHeader } from '@/components/site/site-header';
 import { BlogPreview } from '@/components/sections/blog-preview';
+import { DevProfile } from '@/components/sections/dev-profile';
 import { ExperienceSection } from '@/components/sections/experience-section';
-import { ProfileCard } from '@/components/sections/profile-card';
 import { ProjectsSection } from '@/components/sections/projects-section';
 import { StackSection } from '@/components/sections/stack-section';
 import { StatusCard } from '@/components/sections/status-card';
@@ -13,18 +13,19 @@ const Home = () => {
       <SiteBackground />
       <SiteHeader />
 
-      <main className="mx-auto grid max-w-5xl gap-4 px-4 py-8 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="space-y-4">
-          <ProfileCard />
-          <ProjectsSection />
-        </div>
+      <main className="mx-auto max-w-5xl space-y-4 px-4 py-8">
+        <DevProfile />
 
-        <aside className="space-y-4">
-          <StatusCard />
-          <StackSection />
-          <ExperienceSection />
-          <BlogPreview />
-        </aside>
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <ProjectsSection />
+
+          <aside className="space-y-4">
+            <StatusCard />
+            <StackSection />
+            <ExperienceSection />
+            <BlogPreview />
+          </aside>
+        </div>
       </main>
     </div>
   );

@@ -1,8 +1,11 @@
 export const profile = {
-  name: 'Russell',
+  name: 'Russell Ferrero',
+  handle: 'russellfrrr',
   role: 'Full-Stack Developer',
-  location: 'Philippines',
-  intro: 'I build clean, practical web applications with modern frontend and backend tools.',
+  slogan: 'all about web.',
+  location: 'Quezon City, Philippines',
+  intro:
+    'Creating web applications, experimenting with AI, and turning curiosity into software.',
   email: 'russellferrero00@gmail.com',
   github: 'https://github.com/russellfrrr',
   linkedin: 'https://www.linkedin.com/in/russellfrrr/',
