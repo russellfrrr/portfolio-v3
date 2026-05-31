@@ -104,7 +104,7 @@ export const DevProfile = () => {
         </div>
       </Card>
 
-      <Card className="rounded-2xl border-[#f4efe3]/20 bg-[#e8dfcf] p-5 text-[#111111] shadow-[0_24px_80px_rgba(74,23,27,0.18)]">
+      <Card className="rounded-2xl border-[#f4efe3]/20 bg-[#e8dfcf] p-5 lowercase text-[#111111] shadow-[0_24px_80px_rgba(74,23,27,0.18)]">
         <div className="flex h-full flex-col">
           <div>
             <p className="text-sm font-bold lowercase tracking-[-0.02em]">
@@ -119,7 +119,7 @@ export const DevProfile = () => {
           <div className="flex flex-1 flex-col justify-evenly py-2">
             {profileMeta.map((item) => (
               <div key={item.label}>
-                <p className="text-xs font-medium uppercase tracking-[0.14em] text-black/42">
+                <p className="text-xs font-medium tracking-[0.14em] text-black/42">
                   {item.label}
                 </p>
                 <p className="mt-1.5 text-base font-bold leading-snug tracking-[-0.035em]">
