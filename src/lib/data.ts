@@ -14,7 +14,6 @@ export const profile = {
 export const techStack = {
   frontend: ['TypeScript', 'React', 'Next.js', 'TailwindCSS'],
   backend: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL'],
-  tools: ['Git', 'pnpm', 'VS Code', 'Vercel'],
 };
 
 export const projects = [
@@ -49,7 +48,7 @@ export const projects = [
     name: 'type-env',
     eyebrow: 'developer tool',
     description: 'A TypeScript-first utility for defining and validating environment variables with better type safety.',
-    role: 'package design',
+    role: 'npm package',
     status: 'prototype',
     stack: ['TypeScript', 'Node.js', 'Vitest'],
     href: 'https://www.npmjs.com/package/@russellfrrr/typed-env',
