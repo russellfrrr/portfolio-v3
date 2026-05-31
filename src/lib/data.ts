@@ -19,24 +19,42 @@ export const techStack = {
 
 export const projects = [
   {
-    name: 'Docudok',
-    description: 'An AI web application that enables document Q&A using RAG.',
-    stack: ['MongoDB', 'Express', 'React', 'Node.js'],
-    href: '#',
+    name: 'Prime Vault Automation',
+    eyebrow: 'client website',
+    description: 'A Next.js website for a trading automation service with live market data, client inquiries, and automated contract signing.',
+    role: 'full-stack',
+    status: 'live',
+    stack: ['Next.js', 'TypeScript', 'shadcn/ui', 'Motion'],
+    href: 'https://www.primevaultautomation.com/',
   },
   {
-    name: 'type-env',
-    description: 'A TypeScript-first utility for defining and validating environment variables with full type safety.',
-    stack: ['TypeScript', 'Node.js', 'Vitest'],
-    href: '#',
+    name: 'Docudok',
+    eyebrow: 'featured build',
+    description: 'An AI document workspace that lets users ask questions over uploaded files using retrieval-augmented generation.',
+    role: 'full-stack / AI integration',
+    status: 'in progress',
+    stack: ['TypeScript', 'React', 'Node.js', 'Qdrant', 'RAG'],
+    href: 'https://github.com/russellfrrr/docudok',
   },
   {
     name: 'SuitLink',
-    description: 'A modern full-stack job portal web application that connects talented job seekers with innovative companies.',
-    stack: ['MongoDB', 'Express', 'React', 'Node.js'],
-    href: '#',
+    eyebrow: 'web platform',
+    description: 'A job portal concept built around cleaner matching between job seekers and hiring teams.',
+    role: 'full-stack',
+    status: 'live',
+    stack: ['MERN', 'JavaScript', 'React', 'Express', 'MongoDB'],
+    href: 'https://suitlink.vercel.app/',
   },
-];
+  {
+    name: 'type-env',
+    eyebrow: 'developer tool',
+    description: 'A TypeScript-first utility for defining and validating environment variables with better type safety.',
+    role: 'package design',
+    status: 'prototype',
+    stack: ['TypeScript', 'Node.js', 'Vitest'],
+    href: 'https://www.npmjs.com/package/@russellfrrr/typed-env',
+  },
+]
 
 export const experience = [
   {
