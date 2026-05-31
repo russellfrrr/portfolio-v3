@@ -54,17 +54,49 @@ export const projects = [
     stack: ['TypeScript', 'Node.js', 'Vitest'],
     href: 'https://www.npmjs.com/package/@russellfrrr/typed-env',
   },
-]
+];
 
 export const experience = [
   {
-    role: 'Software Engineer',
-    company: 'LogoLife',
+    role: 'Full-Stack Developer',
+    company: 'Prime Vault Automation',
+    period: 'May 2026 - present',
     year: '2026',
+    current: true,
   },
   {
-    role: 'IT Operations Specialist',
+    role: 'Foreign Exchange Trader',
+    company: 'Self-Employed',
+    period: 'Jan 2021 - present',
+    year: '2021',
+    current: true,
+  },
+  {
+    role: 'Software Engineer',
+    company: 'LogoLife',
+    period: 'Mar 2026',
+    year: '2026',
+    current: false,
+  },
+  {
+    role: 'Information Technology Operations Specialist',
     company: 'Dems Financial Consultancy Services',
+    period: 'Jan 2024 - Feb 2026',
     year: '2024',
+    current: false,
+  },
+  {
+    role: 'IT Support Technician',
+    company: 'Dems Financial Consultancy Services',
+    period: 'Jan 2022 - Dec 2023',
+    year: '2022',
+    current: false,
+  },
+  {
+    role: 'Junior IT Support Technician',
+    company: 'Dems Financial Consultancy Services',
+    period: 'Nov 2019 - Dec 2021',
+    year: '2019',
+    current: false,
   },
 ];
