@@ -21,8 +21,8 @@ const Home = () => {
 
           <aside className="space-y-4">
             <StatusCard />
-            <StackSection />
             <ExperienceSection />
+            <StackSection />
             <BlogPreview />
           </aside>
         </div>
