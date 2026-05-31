@@ -1,10 +1,71 @@
 import { ArrowUpRight } from 'lucide-react';
+import type { IconType } from 'react-icons';
+import {
+  SiExpress,
+  SiFramer,
+  SiJavascript,
+  SiMongodb,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiReact,
+  SiShadcnui,
+  SiTypescript,
+  SiVitest,
+} from 'react-icons/si';
 import { projects } from '@/lib/data';
 
 const statusStyles: Record<string, string> = {
-  live: 'text-[#9ad7a0] before:bg-[#9ad7a0]',
-  'in progress': 'text-[#d9a766] before:bg-[#d9a766]',
-  prototype: 'text-[#b9a7dd] before:bg-[#b9a7dd]',
+  live: 'text-[#9ad7a0]',
+  'in progress': 'text-[#d9a766]',
+  prototype: 'text-[#b9a7dd]',
+};
+
+const statusDots: Record<string, string> = {
+  live: 'animate-[soft-blink_1.8s_ease-in-out_infinite] bg-[#9ad7a0]',
+  'in progress': 'bg-[#d9a766]',
+  prototype: 'bg-[#b9a7dd]',
+};
+
+const stackIcons: Record<string, { icon?: IconType; label?: string }> = {
+  Express: {
+    icon: SiExpress,
+  },
+  JavaScript: {
+    icon: SiJavascript,
+  },
+  MERN: {
+    label: 'MERN',
+  },
+  MongoDB: {
+    icon: SiMongodb,
+  },
+  Motion: {
+    icon: SiFramer,
+  },
+  'Next.js': {
+    icon: SiNextdotjs,
+  },
+  'Node.js': {
+    icon: SiNodedotjs,
+  },
+  Qdrant: {
+    label: 'Q',
+  },
+  RAG: {
+    label: 'RAG',
+  },
+  React: {
+    icon: SiReact,
+  },
+  'shadcn/ui': {
+    icon: SiShadcnui,
+  },
+  TypeScript: {
+    icon: SiTypescript,
+  },
+  Vitest: {
+    icon: SiVitest,
+  },
 };
 
 export const ProjectsSection = () => {
@@ -32,38 +93,39 @@ export const ProjectsSection = () => {
       </div>
 
       <div className="relative z-10">
-        {projects.map((project, index) => (
-          <a
-            className="group block border-t border-[#f4efe3]/10 py-6 text-[#f4efe3] outline-none first:border-t-0 first:pt-3 last:pb-1 focus-visible:ring-2 focus-visible:ring-[#6f1d24]/35"
-            href={project.href}
+        {projects.map((project) => (
+          <article
+            className="border-t border-[#f4efe3]/10 py-6 text-[#f4efe3] first:border-t-0 first:pt-3 last:pb-1"
             key={project.name}
-            rel="noreferrer"
-            target="_blank"
           >
-            <div className={index === 0 ? '' : ''}>
+            <div>
               <div>
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#f4efe3]/36">
-                      {project.eyebrow}
-                    </p>
-
-                    <h3 className="mt-3 text-2xl font-bold tracking-[-0.05em] transition-colors group-hover:text-[#f4efe3] sm:text-3xl">
+                    <a
+                      className="text-2xl font-bold tracking-[-0.05em] text-[#f4efe3] outline-none transition-colors hover:text-[#d9a766] focus-visible:text-[#d9a766] sm:text-3xl"
+                      href={project.href}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
                       {project.name}
-                    </h3>
+                    </a>
                   </div>
 
                   <div className="flex shrink-0 items-start gap-3">
                     <span
-                      className={`inline-flex items-center gap-1.5 pt-1 text-xs font-bold lowercase before:size-1.5 before:rounded-full ${
+                      className={`inline-flex items-center gap-1.5 pt-1 text-xs font-bold lowercase ${
                         statusStyles[project.status] ??
-                        'text-[#f4efe3]/55 before:bg-[#f4efe3]/55'
+                        'text-[#f4efe3]/55'
                       }`}
                     >
+                      <span
+                        className={`size-1.5 rounded-full ${
+                          statusDots[project.status] ?? 'bg-[#f4efe3]/55'
+                        }`}
+                      />
                       {project.status}
                     </span>
-
-                    <ArrowUpRight className="mt-0.5 size-4 text-[#f4efe3]/42 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#f4efe3]" />
                   </div>
                 </div>
 
@@ -73,13 +135,32 @@ export const ProjectsSection = () => {
 
                 <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold lowercase text-[#f4efe3]/42">
                   <p className="text-[#d9a766]/80">{project.role}</p>
-                  <p className="text-[#f4efe3]/34">
-                    {project.stack.join(' | ')}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-3 text-[#f4efe3]/36">
+                    {project.stack.map((item) => {
+                      const stack = stackIcons[item];
+                      const Icon = stack?.icon;
+
+                      return (
+                        <span
+                          className="inline-flex items-center text-[#f4efe3]/38"
+                          key={item}
+                          title={item}
+                        >
+                          {Icon ? (
+                            <Icon aria-label={item} className="size-4" />
+                          ) : (
+                            <span className="text-[0.65rem] font-bold uppercase tracking-[0.08em]">
+                              {stack?.label ?? item}
+                            </span>
+                          )}
+                        </span>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
-          </a>
+          </article>
         ))}
       </div>
     </section>
