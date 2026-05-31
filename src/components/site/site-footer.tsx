@@ -57,7 +57,7 @@ export const SiteFooter = () => {
           </div>
 
           <p className="text-sm font-medium text-[#f4efe3]/42">
-            © Russell Ferrero. All Rights Reserved.
+            © 2026 Russell Ferrero. All Rights Reserved.
           </p>
         </div>
       </div>
