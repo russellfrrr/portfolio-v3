@@ -48,16 +48,19 @@ const stackLinks = {
 export const StackSection = () => {
   return (
     <section
-      className="rounded-2xl border border-[#f4efe3]/10 bg-[#151515]/95 p-4 text-[#f4efe3] shadow-[0_24px_80px_rgba(0,0,0,0.28)]"
+      className="relative overflow-hidden rounded-2xl border border-[#f4efe3]/10 bg-[#151515]/95 p-4 text-[#f4efe3] shadow-[0_24px_80px_rgba(0,0,0,0.28)]"
       id="stack"
     >
-      <h2 className="text-lg font-bold tracking-[-0.035em]">tech stack.</h2>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(111,29,36,0.32),transparent_42%),linear-gradient(to_right,rgba(244,239,227,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(244,239,227,0.025)_1px,transparent_1px)] bg-[size:auto,36px_36px,36px_36px]" />
 
-      <div className="mt-5 space-y-6">
+      <div className="relative z-10">
+        <h2 className="text-lg font-bold tracking-[-0.035em]">tech stack.</h2>
+
+        <div className="mt-5 space-y-6">
         {Object.entries(techStack).map(([category, items]) => (
           <div key={category}>
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-[#f4efe3]/36">
-              {category}
+            <p className="mb-3 text-xs font-bold lowercase tracking-[0.14em] text-[#f4efe3]/36">
+              {category.toLowerCase()}
             </p>
 
             <div className="flex flex-wrap gap-x-5 gap-y-4">
@@ -82,6 +85,7 @@ export const StackSection = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </section>
   );
