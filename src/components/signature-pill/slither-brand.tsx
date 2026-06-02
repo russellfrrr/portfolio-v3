@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
 
 const phrases = {
@@ -17,10 +18,10 @@ export const SlitherBrand = () => {
   const phrase = isHovered ? phrases.slogan : phrases.brand;
 
   return (
-    <a
+    <Link
       aria-label="russellfrrr, all about web"
       className="relative flex h-9 min-w-44 items-center justify-center overflow-hidden text-base font-black tracking-tight text-black sm:min-w-56 sm:text-lg"
-      href="#"
+      href="/"
       onBlur={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onMouseEnter={() => setIsHovered(true)}
@@ -63,6 +64,6 @@ export const SlitherBrand = () => {
           ))}
         </motion.span>
       </AnimatePresence>
-    </a>
+    </Link>
   );
 };

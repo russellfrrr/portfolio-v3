@@ -10,13 +10,14 @@ import { SlitherBrand } from '@/components/signature-pill/slither-brand';
 const menuItems = [
   {
     label: 'projects.',
-    href: '#projects',
+    href: 'https://github.com/russellfrrr?tab=repositories',
+    isExternal: true,
     gradient:
       'radial-gradient(circle at 18% 28%, rgba(255, 180, 80, 0.95), transparent 34%), radial-gradient(circle at 82% 74%, rgba(255, 92, 28, 0.85), transparent 38%), linear-gradient(135deg, rgba(244, 239, 227, 0.34), rgba(24, 24, 24, 0.15))',
   },
   {
     label: 'blog.',
-    href: '#blog',
+    href: '/blog',
     gradient:
       'radial-gradient(circle at 20% 30%, rgba(94, 234, 212, 0.9), transparent 34%), radial-gradient(circle at 84% 76%, rgba(96, 165, 250, 0.8), transparent 40%), linear-gradient(135deg, rgba(244, 239, 227, 0.22), rgba(24, 24, 24, 0.12))',
   },
@@ -155,7 +156,9 @@ export const SignaturePill = () => {
                 href={item.href}
                 key={item.label}
                 onClick={() => setIsMenuOpen(false)}
+                rel={item.isExternal ? 'noreferrer' : undefined}
                 tabIndex={isMenuOpen ? 0 : -1}
+                target={item.isExternal ? '_blank' : undefined}
               >
                 <span
                   className="absolute -inset-8 opacity-80 blur-2xl"

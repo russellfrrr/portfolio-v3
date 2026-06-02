@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import { getLatestBlogPosts } from '@/lib/blog';
+import { formatBlogDate, getLatestBlogPosts } from '@/lib/blog';
 
 export const BlogPreview = async () => {
   const posts = await getLatestBlogPosts(2);
@@ -33,7 +33,7 @@ export const BlogPreview = async () => {
               key={post.slug}
             >
               <p className="text-xs font-bold lowercase tracking-[0.12em] text-[#d9a766]/70">
-                {post.date}
+                {formatBlogDate(post.date)}
               </p>
               <h3 className="mt-2 text-xl font-bold lowercase tracking-[-0.045em] transition-colors group-hover:text-[#d9a766]">
                 {post.title}
