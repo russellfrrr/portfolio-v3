@@ -21,13 +21,6 @@ const fragmentShaderSource = `
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
   }
 
-  float grid(vec2 uv, float scale, float thickness) {
-    vec2 cells = abs(fract(uv * scale) - 0.5);
-    float line = min(cells.x, cells.y);
-
-    return 1.0 - smoothstep(0.0, thickness, line);
-  }
-
   void main() {
     vec2 uv = gl_FragCoord.xy / u_resolution.xy;
     vec2 centered = uv - 0.5;
@@ -38,33 +31,30 @@ const fragmentShaderSource = `
     mouseAspect.x *= u_resolution.x / u_resolution.y;
 
     float mouseDistance = length(centered - mouseAspect);
-    float mouseField = smoothstep(0.72, 0.0, mouseDistance);
-    float ripple = sin(mouseDistance * 34.0 - u_time * 2.4) * 0.008 * mouseField;
-
-    vec2 warped = uv + normalize(centered - mouseAspect + 0.0001) * ripple;
-    warped += vec2(u_time * 0.006, -u_time * 0.004);
-
-    float majorGrid = grid(warped, 16.0, 0.018);
-    float minorGrid = grid(warped + vec2(0.17, 0.09), 48.0, 0.006);
-    float diagonal = smoothstep(0.48, 0.5, abs(fract((warped.x - warped.y) * 18.0) - 0.5));
-    float scanline = 0.5 + 0.5 * sin(gl_FragCoord.y * 1.85 + u_time * 2.0);
-    float grain = hash(floor(gl_FragCoord.xy * 0.7) + u_time);
+    float mouseField = smoothstep(0.78, 0.0, mouseDistance);
+    float horizon = smoothstep(0.18, 0.78, uv.y);
+    float sunCore = smoothstep(0.48, 0.0, length(vec2(centered.x * 0.86, uv.y - 0.08)));
+    float sunHalo = smoothstep(0.95, 0.0, length(vec2(centered.x * 0.72, uv.y - 0.0)));
+    float haze = smoothstep(0.65, 0.0, abs(uv.y - 0.38));
+    float banding = 0.5 + 0.5 * sin((uv.y * 26.0) + sin(uv.x * 5.0) * 0.8 + u_time * 0.28);
+    float fineGrain = hash(floor(gl_FragCoord.xy * 0.42) + floor(u_time * 1.5));
 
     vec3 black = vec3(0.0);
     vec3 cream = vec3(0.957, 0.937, 0.890);
     vec3 oxblood = vec3(0.435, 0.114, 0.141);
+    vec3 ember = vec3(0.72, 0.19, 0.11);
 
-    vec3 color = black;
-    color += cream * majorGrid * 0.035;
-    color += cream * minorGrid * 0.015;
-    color += cream * (1.0 - diagonal) * 0.018;
-    color += oxblood * mouseField * 0.22;
-    color += cream * mouseField * 0.035;
-    color += cream * scanline * 0.018;
-    color += cream * (grain - 0.5) * 0.025;
+    vec3 color = mix(black, oxblood * 0.18, horizon);
+    color += oxblood * sunHalo * 0.34;
+    color += ember * sunCore * 0.28;
+    color += cream * sunCore * 0.045;
+    color += cream * haze * banding * 0.028;
+    color += oxblood * mouseField * 0.12;
+    color += cream * mouseField * 0.018;
+    color += cream * (fineGrain - 0.5) * 0.018;
 
-    float vignette = smoothstep(1.18, 0.18, length(centered));
-    color *= vignette;
+    float vignette = smoothstep(1.22, 0.14, length(centered));
+    color *= vignette + 0.2;
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -224,7 +214,7 @@ export const SiteBackground = () => {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-black">
       <canvas className="absolute inset-0 size-full" ref={canvasRef} />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0,transparent_58%,rgba(0,0,0,0.62)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0,transparent_68%,rgba(0,0,0,0.52)_100%)]" />
     </div>
   );
 };
