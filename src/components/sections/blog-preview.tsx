@@ -7,10 +7,13 @@ export const BlogPreview = async () => {
 
   return (
     <section
-      className="rounded-2xl border border-[#f4efe3]/10 bg-[#151515]/95 p-5 text-[#f4efe3] shadow-[0_24px_80px_rgba(0,0,0,0.28)]"
+      className="relative overflow-hidden rounded-2xl border border-[#f4efe3]/10 bg-[#151515] p-5 text-[#f4efe3] shadow-[0_24px_80px_rgba(0,0,0,0.28)]"
       id="blog"
     >
-      <div className="flex items-center justify-between gap-4">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(217,167,102,0.18),transparent_34%),radial-gradient(circle_at_88%_84%,rgba(111,29,36,0.34),transparent_42%),linear-gradient(135deg,rgba(244,239,227,0.05),rgba(0,0,0,0))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[#151515]/72" />
+
+      <div className="relative flex items-center justify-between gap-4">
         <h2 className="text-lg font-bold lowercase tracking-[-0.035em]">
           blog.
         </h2>
@@ -24,7 +27,7 @@ export const BlogPreview = async () => {
         </Link>
       </div>
 
-      <div className="mt-5">
+      <div className="relative mt-5">
         {posts.length > 0 ? (
           posts.map((post) => (
             <Link
