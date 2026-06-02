@@ -12,6 +12,30 @@ export type BlogDraftResult = {
   slug: string;
 };
 
+const escapeFrontmatterValue = (value: string) => {
+  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+};
+
+export const createBlogMdxFile = ({
+  content,
+  date,
+  description,
+  tags,
+  title,
+}: Omit<BlogDraftPayload, 'slug'>) => {
+  const tagList = tags.map((tag) => `"${escapeFrontmatterValue(tag)}"`).join(', ');
+
+  return `---
+title: "${escapeFrontmatterValue(title)}"
+description: "${escapeFrontmatterValue(description)}"
+date: "${escapeFrontmatterValue(date)}"
+tags: [${tagList}]
+---
+
+${content.trim()}
+`;
+};
+
 export const slugify = (value: string) => {
   return value
     .toLowerCase()

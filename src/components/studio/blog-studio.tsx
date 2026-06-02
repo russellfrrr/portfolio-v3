@@ -2,8 +2,9 @@
 
 import { useMemo, useState, type ChangeEvent } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Braces, Highlighter, LinkIcon, LogOut, Pilcrow, Send } from 'lucide-react';
+import { ArrowUpRight, Braces, Highlighter, LinkIcon, LogOut, Pilcrow, Plus, Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import type { BlogPost } from '@/lib/blog';
 import { parseTags, slugify, type BlogDraftResult } from '@/lib/studio';
 
 type StudioStatus = {
@@ -46,7 +47,11 @@ const snippets = [
   },
 ];
 
-export const BlogStudio = () => {
+type BlogStudioProps = {
+  initialPosts: BlogPost[];
+};
+
+export const BlogStudio = ({ initialPosts }: BlogStudioProps) => {
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
@@ -54,6 +59,8 @@ export const BlogStudio = () => {
   const [date, setDate] = useState(today);
   const [tags, setTags] = useState('');
   const [content, setContent] = useState(defaultContent);
+  const [posts, setPosts] = useState<BlogPost[]>(initialPosts);
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [status, setStatus] = useState<StudioStatus>({
     message: 'Draft locally, then publish.',
     tone: 'idle',
@@ -63,6 +70,23 @@ export const BlogStudio = () => {
 
   const resolvedSlug = useMemo(() => slugify(slug || title), [slug, title]);
   const tagList = useMemo(() => parseTags(tags), [tags]);
+  const isEditing = Boolean(activeSlug);
+
+  const fetchPosts = async () => {
+    const response = await fetch('/api/studio/posts');
+
+    if (!response.ok) {
+      setStatus({
+        message: 'Could not load existing posts.',
+        tone: 'error',
+      });
+      return;
+    }
+
+    const data = (await response.json()) as { posts: BlogPost[] };
+
+    setPosts(data.posts);
+  };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -78,12 +102,81 @@ export const BlogStudio = () => {
     setContent((current) => `${current}${snippet}`);
   };
 
+  const resetDraft = () => {
+    setActiveSlug(null);
+    setTitle('');
+    setSlug('');
+    setDescription('');
+    setDate(today);
+    setTags('');
+    setContent(defaultContent);
+    setPublishedPost(null);
+    setStatus({
+      message: 'Draft locally, then publish.',
+      tone: 'idle',
+    });
+  };
+
+  const editPost = (post: BlogPost) => {
+    setActiveSlug(post.slug);
+    setTitle(post.title);
+    setSlug(post.slug);
+    setDescription(post.description);
+    setDate(post.date);
+    setTags(post.tags.join(', '));
+    setContent(post.content);
+    setPublishedPost({ fileName: `${post.slug}.mdx`, slug: post.slug });
+    setStatus({
+      message: `Editing ${post.title}.`,
+      tone: 'idle',
+    });
+  };
+
+  const deletePost = async (post: BlogPost) => {
+    const shouldDelete = window.confirm(`Delete "${post.title}"?`);
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setStatus({ message: 'Deleting post...', tone: 'idle' });
+
+    const response = await fetch(`/api/studio/posts/${post.slug}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      setStatus({
+        message: data.message ?? 'Could not delete post.',
+        tone: 'error',
+      });
+      return;
+    }
+
+    if (activeSlug === post.slug) {
+      resetDraft();
+    }
+
+    await fetchPosts();
+    router.refresh();
+    setStatus({
+      message: `Deleted ${post.title}.`,
+      tone: 'success',
+    });
+  };
+
   const handleSubmit = async () => {
     setIsSaving(true);
     setPublishedPost(null);
-    setStatus({ message: 'saving your post...', tone: 'idle' });
+    setStatus({
+      message: isEditing ? 'Updating post...' : 'Saving post...',
+      tone: 'idle',
+    });
 
-    const response = await fetch('/api/studio/posts', {
+    const response = await fetch(
+      isEditing ? `/api/studio/posts/${activeSlug}` : '/api/studio/posts',
+      {
       body: JSON.stringify({
         content,
         date,
@@ -95,8 +188,9 @@ export const BlogStudio = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      method: 'POST',
-    });
+        method: isEditing ? 'PUT' : 'POST',
+      }
+    );
 
     const data = await response.json();
 
@@ -111,10 +205,13 @@ export const BlogStudio = () => {
     }
 
     setPublishedPost(data);
+    setActiveSlug(data.slug);
     setStatus({
-      message: `saved as ${data.fileName}`,
+      message: `${isEditing ? 'Updated' : 'Saved'} ${data.fileName}.`,
       tone: 'success',
     });
+    await fetchPosts();
+    router.refresh();
   };
 
   const handleLogout = async () => {
@@ -139,6 +236,15 @@ export const BlogStudio = () => {
           <div className="flex flex-wrap gap-2">
             <button
               className="inline-flex items-center gap-2 rounded-full border border-[#f4efe3]/14 px-4 py-2 text-sm font-semibold text-[#f4efe3]/58 transition-colors hover:border-[#6f1d24] hover:text-[#f4efe3]"
+              onClick={resetDraft}
+              type="button"
+            >
+              New
+              <Plus className="size-4" />
+            </button>
+
+            <button
+              className="inline-flex items-center gap-2 rounded-full border border-[#f4efe3]/14 px-4 py-2 text-sm font-semibold text-[#f4efe3]/58 transition-colors hover:border-[#6f1d24] hover:text-[#f4efe3]"
               onClick={handleLogout}
               type="button"
             >
@@ -152,7 +258,7 @@ export const BlogStudio = () => {
               onClick={handleSubmit}
               type="button"
             >
-              {isSaving ? 'Saving' : 'Publish'}
+              {isSaving ? 'Saving' : isEditing ? 'Update' : 'Publish'}
               <Send className="size-4" />
             </button>
           </div>
@@ -310,6 +416,52 @@ export const BlogStudio = () => {
         >
           {status.message}
         </p>
+
+        <div className="mt-8">
+          <h3 className="text-sm font-semibold text-[#111111]/70">
+            Existing posts
+          </h3>
+
+          <div className="mt-3 space-y-3">
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <div
+                  className="rounded-xl border border-[#111111]/10 px-4 py-3"
+                  key={post.slug}
+                >
+                  <p className="text-sm font-semibold leading-5">
+                    {post.title}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-[#111111]/42">
+                    {post.slug}
+                  </p>
+
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6f1d24] transition-colors hover:text-[#111111]"
+                      onClick={() => editPost(post)}
+                      type="button"
+                    >
+                      edit
+                    </button>
+
+                    <button
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-red-700/70 transition-colors hover:text-red-800"
+                      onClick={() => deletePost(post)}
+                      type="button"
+                    >
+                      delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm font-medium text-[#111111]/34">
+                No posts yet.
+              </p>
+            )}
+          </div>
+        </div>
 
         {publishedPost ? (
           <Link

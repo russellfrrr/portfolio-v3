@@ -1,35 +1,12 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { NextResponse } from 'next/server';
-import { type BlogDraftPayload, slugify } from '@/lib/studio';
+import { getBlogPosts } from '@/lib/blog';
+import { createBlogMdxFile, type BlogDraftPayload, slugify } from '@/lib/studio';
 
 const blogDirectory = path.join(process.cwd(), 'src/content/blog');
 
 export const runtime = 'nodejs';
-
-const escapeFrontmatterValue = (value: string) => {
-  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-};
-
-const createMdxFile = ({
-  content,
-  date,
-  description,
-  tags,
-  title,
-}: Omit<BlogDraftPayload, 'password' | 'slug'>) => {
-  const tagList = tags.map((tag) => `"${escapeFrontmatterValue(tag)}"`).join(', ');
-
-  return `---
-title: "${escapeFrontmatterValue(title)}"
-description: "${escapeFrontmatterValue(description)}"
-date: "${escapeFrontmatterValue(date)}"
-tags: [${tagList}]
----
-
-${content.trim()}
-`;
-};
 
 const isValidPayload = (payload: Partial<BlogDraftPayload>) => {
   return Boolean(
@@ -38,6 +15,12 @@ const isValidPayload = (payload: Partial<BlogDraftPayload>) => {
       && payload.description?.trim()
       && payload.title?.trim()
   );
+};
+
+export const GET = async () => {
+  const posts = await getBlogPosts();
+
+  return NextResponse.json({ posts });
 };
 
 export const POST = async (request: Request) => {
@@ -61,7 +44,7 @@ export const POST = async (request: Request) => {
 
   const fileName = `${slug}.mdx`;
   const filePath = path.join(blogDirectory, fileName);
-  const mdx = createMdxFile({
+  const mdx = createBlogMdxFile({
     content: payload.content ?? '',
     date: payload.date ?? '',
     description: payload.description ?? '',

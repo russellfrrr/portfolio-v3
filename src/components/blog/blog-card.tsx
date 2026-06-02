@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { BlogPostMeta } from '@/lib/blog';
+import { formatBlogDate, type BlogPostMeta } from '@/lib/blog';
 
 type BlogCardProps = {
   post: BlogPostMeta;
@@ -8,13 +8,13 @@ type BlogCardProps = {
 export const BlogCard = ({ post }: BlogCardProps) => {
   return (
     <Link
-      className="group block border-t border-[#f4efe3]/10 py-6 first:border-t-0 first:pt-0"
+      className="group block"
       href={`/blog/${post.slug}`}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-bold lowercase tracking-[0.12em] text-[#d9a766]/80">
-            {post.date}
+            {formatBlogDate(post.date)}
           </p>
           <h2 className="mt-3 text-3xl font-bold lowercase tracking-[-0.055em] text-[#f4efe3] transition-colors group-hover:text-[#d9a766]">
             {post.title}

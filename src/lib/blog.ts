@@ -56,3 +56,17 @@ export const getBlogPost = async (slug: string) => {
 
   return posts.find((post) => post.slug === slug) ?? null;
 };
+
+export const formatBlogDate = (date: string) => {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return date;
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(parsedDate);
+};

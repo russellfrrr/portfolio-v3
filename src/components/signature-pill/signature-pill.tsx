@@ -102,7 +102,7 @@ export const SignaturePill = () => {
   }, []);
 
   return (
-    <header className="sticky top-3 z-20 mx-auto h-14 max-w-5xl px-3 sm:top-4 sm:px-4">
+    <header className="sticky top-3 z-20 mx-auto h-14 w-full max-w-5xl px-3 sm:top-4 sm:px-4">
       <motion.div
         animate={{ opacity: isMenuOpen ? 1 : 0 }}
         className={`fixed inset-0 top-0 -z-10 bg-black/20 backdrop-blur-[2px] ${
