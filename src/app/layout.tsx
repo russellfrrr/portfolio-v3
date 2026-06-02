@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: 'russellfrrr | portfolio',
+  title: 'russellfrrr | all about web.',
   description:
     'Russell Ferrero is a full-stack developer building clean web applications, useful systems, and thoughtful interfaces.',
 };
