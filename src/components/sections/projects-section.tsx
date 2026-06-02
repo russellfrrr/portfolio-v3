@@ -26,6 +26,12 @@ const statusDots: Record<string, string> = {
   prototype: 'bg-[#b9a7dd]',
 };
 
+const statusOrder: Record<string, number> = {
+  live: 0,
+  'in progress': 1,
+  prototype: 2,
+};
+
 const stackIcons: Record<string, { icon?: IconType; label?: string }> = {
   Express: {
     icon: SiExpress,
@@ -69,6 +75,10 @@ const stackIcons: Record<string, { icon?: IconType; label?: string }> = {
 };
 
 export const ProjectsSection = () => {
+  const sortedProjects = [...projects].sort(
+    (a, b) => (statusOrder[a.status] ?? 99) - (statusOrder[b.status] ?? 99)
+  );
+
   return (
     <section
       className="relative overflow-hidden rounded-2xl border border-[#f4efe3]/10 bg-[#111111] p-4 text-[#f4efe3] shadow-[0_24px_80px_rgba(0,0,0,0.32)] sm:p-5"
@@ -93,7 +103,7 @@ export const ProjectsSection = () => {
       </div>
 
       <div className="relative z-10">
-        {projects.map((project) => (
+        {sortedProjects.map((project) => (
           <article
             className="border-t border-[#f4efe3]/10 py-6 text-[#f4efe3] first:border-t-0 first:pt-3 last:pb-1"
             key={project.name}
