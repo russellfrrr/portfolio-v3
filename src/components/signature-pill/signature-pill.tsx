@@ -22,8 +22,9 @@ const menuItems = [
       'radial-gradient(circle at 20% 30%, rgba(94, 234, 212, 0.9), transparent 34%), radial-gradient(circle at 84% 76%, rgba(96, 165, 250, 0.8), transparent 40%), linear-gradient(135deg, rgba(244, 239, 227, 0.22), rgba(24, 24, 24, 0.12))',
   },
   {
-    label: 'contact.',
-    href: 'mailto:russellferrero00@gmail.com',
+    label: 'resume.',
+    href: '/resume.pdf',
+    download: true,
     gradient:
       'radial-gradient(circle at 18% 30%, rgba(214, 255, 107, 0.9), transparent 34%), radial-gradient(circle at 82% 76%, rgba(52, 211, 153, 0.78), transparent 40%), linear-gradient(135deg, rgba(244, 239, 227, 0.28), rgba(24, 24, 24, 0.12))',
   },
@@ -156,6 +157,7 @@ export const SignaturePill = () => {
                 href={item.href}
                 key={item.label}
                 onClick={() => setIsMenuOpen(false)}
+                download={item.download ? 'russell-ferrero-resume.pdf' : undefined}
                 rel={item.isExternal ? 'noreferrer' : undefined}
                 tabIndex={isMenuOpen ? 0 : -1}
                 target={item.isExternal ? '_blank' : undefined}
