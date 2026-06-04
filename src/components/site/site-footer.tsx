@@ -23,7 +23,7 @@ const footerLinks = [
 export const SiteFooter = () => {
   return (
     <footer className="mt-10 border-t border-[#f4efe3]/10 bg-[#151515]/92 px-4 py-10 text-[#f4efe3]">
-      <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+      <div className="mx-auto grid max-w-5xl gap-8 text-center sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:text-left">
         <div>
           <p className="text-sm font-bold lowercase text-[#f4efe3]/52">
             {profile.slogan}
@@ -37,7 +37,7 @@ export const SiteFooter = () => {
         </div>
 
         <div className="space-y-5 sm:text-right">
-          <div className="flex gap-4 sm:justify-end">
+          <div className="flex justify-center gap-4 sm:justify-end">
             {footerLinks.map((link) => {
               const Icon = link.icon;
 
